@@ -1,6 +1,7 @@
 package io.github.raeperd.realworld.domain.article.comment;
 
 import io.github.raeperd.realworld.domain.article.Article;
+import io.github.raeperd.realworld.domain.article.comment.report.CommentReport;
 import io.github.raeperd.realworld.domain.user.User;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

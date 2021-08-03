@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -104,5 +105,9 @@ public class ArticleService implements ArticleFindService {
         userFindService.findById(userId)
                 .ifPresentOrElse(user -> articleRepository.deleteArticleByAuthorAndContentsTitleSlug(user, slug),
                         () -> {throw new NoSuchElementException();});
+    }
+
+    public List<Article> findAllByAuthorId(long authorId) {
+        return articleRepository.findAllByAuthor_Id(authorId);
     }
 }

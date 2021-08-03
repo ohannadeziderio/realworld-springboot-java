@@ -1,5 +1,6 @@
-package io.github.raeperd.realworld.application.article.comment;
+package io.github.raeperd.realworld.application.article.comment.report;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Getter;
@@ -16,5 +17,10 @@ public class CommentReportDTO {
 
     @NotBlank
     private String description;
+
+    @JsonCreator
+    CommentReportDTO(String description) {
+        this.description = description;
+    }
 
 }

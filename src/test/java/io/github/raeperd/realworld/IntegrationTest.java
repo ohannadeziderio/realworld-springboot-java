@@ -36,6 +36,7 @@ class IntegrationTest {
 
     private String token;
     private int commentId;
+    private int commentReportId;
 
     @Order(1)
     @Test
@@ -296,6 +297,33 @@ class IntegrationTest {
     @Test
     void delete_article() throws Exception {
         mockMvc.perform(delete("/articles/{slug}", "how-to-train-your-dragon")
+                .header(AUTHORIZATION, "Token " + token))
+                .andExpect(status().isNoContent());
+    }
+
+    @Order(16)
+    @Test
+    void report_a_comment() throws Exception {
+        mockMvc.perform(post("/articles/{slug}/comments/{id}/report", "how-to-train-your-dragon", commentId)
+                .header(AUTHORIZATION, "Token " + token)
+                .contentType(APPLICATION_JSON)
+                .content("{\"commentReport\":{\"description\":\"Ever wonder how?\"}}"))
+                .andExpect(status().isOk())
+                .andExpect(validSingleReportModel());
+    }
+
+    @Order(17)
+    @Test
+    void get_comments_and_its_reports() throws Exception {
+        mockMvc.perform(get("/comment-reports")
+                .header(AUTHORIZATION, "Token " + token))
+                .andExpect(status().isOk());
+    }
+
+    @Order(18)
+    @Test
+    void delete_a_comment_report() throws Exception {
+        mockMvc.perform(delete("/comment-reports/{id}", commentReportId)
                 .header(AUTHORIZATION, "Token " + token))
                 .andExpect(status().isNoContent());
     }

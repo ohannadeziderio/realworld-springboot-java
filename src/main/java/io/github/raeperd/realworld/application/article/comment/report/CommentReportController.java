@@ -1,10 +1,9 @@
-package io.github.raeperd.realworld.application.article.comment;
+package io.github.raeperd.realworld.application.article.comment.report;
 
 import io.github.raeperd.realworld.domain.article.comment.Comment;
-import io.github.raeperd.realworld.domain.article.comment.CommentReport;
-import io.github.raeperd.realworld.domain.article.comment.CommentReportService;
+import io.github.raeperd.realworld.domain.article.comment.report.CommentReport;
+import io.github.raeperd.realworld.domain.article.comment.report.CommentReportService;
 import io.github.raeperd.realworld.infrastructure.jwt.UserJWTPayload;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -25,13 +24,14 @@ public class CommentReportController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/articles/{slug}/comments/{id}/report")
     public CommentReportModel reportComment(@AuthenticationPrincipal UserJWTPayload jwtPayload, @PathVariable String slug,
-                                       @PathVariable long id, @Valid @RequestBody CommentReportDTO commentReportDTO) throws ChangeSetPersister.NotFoundException {
+                                       @PathVariable long id, @Valid @RequestBody CommentReportDTO commentReportDTO) throws Exception {
 
         var commentReportAdded = commentReportService.reportAComment(jwtPayload.getUserId(), slug, id, commentReportDTO);
 
         return CommentReportModel.fromCommentReport(commentReportAdded);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/comment-reports")
     public Map<Comment, List<CommentReport>> getAllCommentsReports(@AuthenticationPrincipal UserJWTPayload jwtPayload) {
 
@@ -42,7 +42,7 @@ public class CommentReportController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/comment-reports/{id}")
-    public void deleteCommentReport(@AuthenticationPrincipal UserJWTPayload jwtPayload, @PathVariable long id) throws ChangeSetPersister.NotFoundException {
+    public void deleteCommentReport(@AuthenticationPrincipal UserJWTPayload jwtPayload, @PathVariable long id) {
         commentReportService.deleteCommentReportById(jwtPayload.getUserId(), id);
     }
 

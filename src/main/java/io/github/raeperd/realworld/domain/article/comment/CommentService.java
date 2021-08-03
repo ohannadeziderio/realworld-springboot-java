@@ -1,6 +1,7 @@
 package io.github.raeperd.realworld.domain.article.comment;
 
 import io.github.raeperd.realworld.domain.article.ArticleFindService;
+import io.github.raeperd.realworld.domain.article.comment.report.CommentRepository;
 import io.github.raeperd.realworld.domain.user.User;
 import io.github.raeperd.realworld.domain.user.UserFindService;
 import org.springframework.stereotype.Service;

@@ -86,6 +86,12 @@ public class IntegrationTestUtils {
                 validCommentModelInPath("comments[0]"));
     }
 
+    static ResultMatcher validSingleReportModel() {
+        return matchAll(
+                jsonPath("report").isMap(),
+                validArticleModelInPath("article"));
+    }
+
     private static ResultMatcher validCommentModelInPath(String path) {
         return matchAll(
                 jsonPath(path + ".id").isNumber(),

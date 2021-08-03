@@ -1,7 +1,6 @@
-package io.github.raeperd.realworld.domain.article.comment;
+package io.github.raeperd.realworld.domain.article.comment.report;
 
-import io.github.raeperd.realworld.domain.article.Article;
-import io.github.raeperd.realworld.domain.user.Profile;
+import io.github.raeperd.realworld.domain.article.comment.Comment;
 import io.github.raeperd.realworld.domain.user.User;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -11,9 +10,7 @@ import javax.persistence.*;
 
 import java.time.Instant;
 import java.util.Objects;
-import java.util.Set;
 
-import static java.util.stream.Collectors.toSet;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -33,7 +30,7 @@ public class CommentReport {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @JoinColumn(name = "author_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(fetch = EAGER)
     private User user;
 

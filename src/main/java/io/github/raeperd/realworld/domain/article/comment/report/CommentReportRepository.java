@@ -1,4 +1,4 @@
-package io.github.raeperd.realworld.domain.article.comment;
+package io.github.raeperd.realworld.domain.article.comment.report;
 
 import org.springframework.data.repository.Repository;
 

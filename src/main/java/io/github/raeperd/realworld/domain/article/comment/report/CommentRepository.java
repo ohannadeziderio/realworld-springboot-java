@@ -1,5 +1,6 @@
-package io.github.raeperd.realworld.domain.article.comment;
+package io.github.raeperd.realworld.domain.article.comment.report;
 
+import io.github.raeperd.realworld.domain.article.comment.Comment;
 import org.springframework.data.repository.Repository;
 
 import java.util.List;

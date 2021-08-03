@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 interface ArticleRepository extends Repository<Article, Long> {
@@ -18,6 +19,7 @@ interface ArticleRepository extends Repository<Article, Long> {
     Page<Article> findAllByAuthorProfileUserName(UserName authorName, Pageable pageable);
     Page<Article> findAllByContentsTagsContains(Tag tag, Pageable pageable);
     Optional<Article> findFirstByContentsTitleSlug(String slug);
+    List<Article> findAllByAuthor_Id(long authorId);
 
     void deleteArticleByAuthorAndContentsTitleSlug(User author, String slug);
 

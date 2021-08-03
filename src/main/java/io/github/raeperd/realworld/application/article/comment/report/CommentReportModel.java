@@ -1,7 +1,7 @@
-package io.github.raeperd.realworld.application.article.comment;
+package io.github.raeperd.realworld.application.article.comment.report;
 
 import io.github.raeperd.realworld.application.user.ProfileModel;
-import io.github.raeperd.realworld.domain.article.comment.CommentReport;
+import io.github.raeperd.realworld.domain.article.comment.report.CommentReport;
 import lombok.Value;
 
 import java.time.ZoneId;
