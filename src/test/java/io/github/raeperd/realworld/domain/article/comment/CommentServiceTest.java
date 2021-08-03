@@ -29,10 +29,12 @@ class CommentServiceTest {
     private UserFindService userFindService;
     @Mock
     private ArticleFindService articleFindService;
+    @Mock
+    private CommentRepository commentRepository;
 
     @BeforeEach
     private void initializeService() {
-        commentService = new CommentService(userFindService, articleFindService);
+        commentService = new CommentService(userFindService, articleFindService, commentRepository);
     }
 
     @Test

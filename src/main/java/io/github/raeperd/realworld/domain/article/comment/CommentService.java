@@ -6,20 +6,24 @@ import io.github.raeperd.realworld.domain.user.UserFindService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.springframework.data.util.Optionals.mapIfAllPresent;
 
 @Service
-public class CommentService {
+public class CommentService implements CommentFindService {
 
     private final UserFindService userFindService;
     private final ArticleFindService articleFindService;
+    private final CommentRepository commentRepository;
 
-    CommentService(UserFindService userFindService, ArticleFindService articleFindService) {
+    CommentService(UserFindService userFindService, ArticleFindService articleFindService, CommentRepository commentRepository) {
         this.userFindService = userFindService;
         this.articleFindService = articleFindService;
+        this.commentRepository = commentRepository;
     }
 
     @Transactional
@@ -43,5 +47,15 @@ public class CommentService {
         userFindService.findById(userId)
                 .ifPresentOrElse(user -> user.deleteArticleComment(articleContainsComments, commentId),
                         () -> {throw new NoSuchElementException();});
+    }
+
+    @Override
+    public Optional<Comment> findById(long id) {
+        return commentRepository.findById(id);
+    }
+
+    @Override
+    public List<Comment> findAllByAuthor_Id(long authorId) {
+        return commentRepository.findAllByAuthor_Id(authorId);
     }
 }

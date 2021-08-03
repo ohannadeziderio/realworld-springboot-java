@@ -1,38 +1,41 @@
 package io.github.raeperd.realworld.domain.article.comment;
 
 import io.github.raeperd.realworld.domain.article.Article;
+import io.github.raeperd.realworld.domain.user.Profile;
 import io.github.raeperd.realworld.domain.user.User;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+
 import java.time.Instant;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import static javax.persistence.CascadeType.PERSIST;
-import static javax.persistence.CascadeType.REMOVE;
+import static java.util.stream.Collectors.toSet;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.GenerationType.IDENTITY;
 
-@Table(name = "comments")
+@Table(name = "comments_reports")
 @EntityListeners(AuditingEntityListener.class)
 @Entity
-public class Comment {
+public class CommentReport {
 
     @GeneratedValue(strategy = IDENTITY)
     @Id
     private Long id;
 
-    @JoinColumn(name = "article_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "comment_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(fetch = EAGER)
-    private Article article;
+    private Comment comment;
+
+    @Column(name = "description", nullable = false)
+    private String description;
 
     @JoinColumn(name = "author_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(fetch = EAGER)
-    private User author;
+    private User user;
 
     @Column(name = "created_at")
     @CreatedDate
@@ -42,27 +45,29 @@ public class Comment {
     @LastModifiedDate
     private Instant updatedAt;
 
-    @Column(name = "body", nullable = false)
-    private String body;
-
-    @OneToMany(mappedBy = "comment", cascade = {PERSIST, REMOVE})
-    private Set<CommentReport> commentsReports = new HashSet<>();
-
-    public Comment(Article article, User author, String body) {
-        this.article = article;
-        this.author = author;
-        this.body = body;
+    public CommentReport() {
     }
 
-    protected Comment() {
+    public CommentReport(Comment comment, String description, User user) {
+        this.comment = comment;
+        this.description = description;
+        this.user = user;
     }
 
     public Long getId() {
         return id;
     }
 
-    public User getAuthor() {
-        return author;
+    public Comment getComment() {
+        return comment;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public Instant getCreatedAt() {
@@ -73,24 +78,16 @@ public class Comment {
         return updatedAt;
     }
 
-    public String getBody() {
-        return body;
-    }
-
-    public Set<CommentReport> getCommentsReports() {
-        return commentsReports;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        var comment = (Comment) o;
-        return article.equals(comment.article) && author.equals(comment.author) && Objects.equals(createdAt, comment.createdAt) && body.equals(comment.body);
+        CommentReport that = (CommentReport) o;
+        return id.equals(that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(article, author, createdAt, body);
+        return Objects.hash(id);
     }
 }
